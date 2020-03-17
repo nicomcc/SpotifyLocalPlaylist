@@ -91,8 +91,6 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->granted(); break;
-        case 1: _t->authStatusChanged((*reinterpret_cast< QAbstractOAuth::Status(*)>(_a[1]))); break;
         case 2: _t->on_actionGrant_triggered(); break;
         case 3: _t->on_actionGet_User_Information_triggered(); break;
         case 4: _t->on_actionGet_Playlists_triggered(); break;
