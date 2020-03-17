@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -39,6 +40,7 @@ public:
     QPlainTextEdit *teOutput;
     QListWidget *listWidget;
     QSpacerItem *verticalSpacer;
+    QLineEdit *lineMusic;
     QPushButton *bt_search;
     QMenuBar *menuBar;
     QMenu *menuWeb_API;
@@ -89,6 +91,11 @@ public:
         verticalSpacer = new QSpacerItem(20, 141, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
+
+        lineMusic = new QLineEdit(centralWidget);
+        lineMusic->setObjectName(QString::fromUtf8("lineMusic"));
+
+        verticalLayout->addWidget(lineMusic);
 
         bt_search = new QPushButton(centralWidget);
         bt_search->setObjectName(QString::fromUtf8("bt_search"));
