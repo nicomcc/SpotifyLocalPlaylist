@@ -247,6 +247,7 @@ DIST          = ../../../Qt/5.14.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/spec_post.prf \
+		../qt-spotify-webapi/.qmake.stash \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -471,6 +472,7 @@ Makefile: ../qt-spotify-webapi/webapi.pro ../../../Qt/5.14.0/gcc_64/mkspecs/linu
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.14.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -683,6 +685,7 @@ Makefile: ../qt-spotify-webapi/webapi.pro ../../../Qt/5.14.0/gcc_64/mkspecs/linu
 ../../../Qt/5.14.0/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.14.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.14.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.14.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.14.0/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.14.0/gcc_64/mkspecs/features/default_pre.prf:
@@ -864,11 +867,35 @@ moc_mainwindow.cpp: ../qt-spotify-webapi/mainwindow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QString \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QUrl \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVector \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QObject \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qssl.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QFlags \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/QOAuth2AuthorizationCodeFlow \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauth2authorizationcodeflow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauthglobal.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth2.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth.h \
 		moc_predefs.h \
 		../../../Qt/5.14.0/gcc_64/bin/moc
@@ -1003,11 +1030,35 @@ main.o: ../qt-spotify-webapi/main.cpp ../qt-spotify-webapi/mainwindow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QString \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QUrl \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVector \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QObject \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qssl.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QFlags \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/QOAuth2AuthorizationCodeFlow \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauth2authorizationcodeflow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauthglobal.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth2.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth.h \
 		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QApplication \
 		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qapplication.h \
@@ -1017,16 +1068,6 @@ main.o: ../qt-spotify-webapi/main.cpp ../qt-spotify-webapi/mainwindow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qguiapplication.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qinputmethod.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslSocket \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslerror.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslcertificate.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qcryptographichash.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qssl.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QFlags \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../qt-spotify-webapi/main.cpp
 
@@ -1138,12 +1179,95 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../Qt/5.14.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QSharedDataPointer \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QString \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QUrl \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QVector \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QObject \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslerror.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qcryptographichash.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qssl.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QFlags \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/QOAuth2AuthorizationCodeFlow \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauth2authorizationcodeflow.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauthglobal.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth2.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qabstractoauth.h \
+		ui_mainwindow.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QAction \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qaction.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QListWidget \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qlistview.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QMenu \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qmenu.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QMenuBar \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QPlainTextEdit \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qplaintextedit.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qtextedit.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qtextdocument.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qtextlayout.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qglyphrun.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qrawfont.h \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qfontdatabase.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QStatusBar \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../Qt/5.14.0/gcc_64/include/QtWidgets/QWidget \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/QDebug \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/QtNetworkAuth \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/QtNetworkAuthDepends \
@@ -1151,8 +1275,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/QtCoreDepends \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractanimation.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qeventloop.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractproxymodel.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qabstractstate.h \
@@ -1169,7 +1291,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcborarray.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcborvalue.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcborcommon.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qregularexpression.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/quuid.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcbormap.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcborstream.h \
@@ -1177,9 +1298,7 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcollator.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qcommandlineparser.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qcoreapplication.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qcryptographichash.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qdeadlinetimer.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qelapsedtimer.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qdir.h \
@@ -1191,7 +1310,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qexception.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qfactoryinterface.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qfileselector.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/QStringList \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qfilesystemwatcher.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qfinalstate.h \
@@ -1204,7 +1322,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qhistorystate.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qidentityproxymodel.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qisenum.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qjsonarray.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qjsonvalue.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qjsondocument.h \
@@ -1272,24 +1389,10 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtCore/qtcoreversion.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QtNetwork \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QtNetworkDepends \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetworkglobal.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtnetwork-config.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractnetworkcache.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QSharedDataPointer \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QString \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QUrl \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QVariant \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qabstractsocket.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qauthenticator.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qdnslookup.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qdtls.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslerror.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslcertificate.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qssl.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QFlags \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qhostaddress.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qhostinfo.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qhstspolicy.h \
@@ -1300,13 +1403,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkRequest \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qlocalserver.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qlocalsocket.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QVector \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslConfiguration \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QMetaType \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkconfigmanager.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkconfiguration.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkcookie.h \
@@ -1317,7 +1413,6 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkinterface.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkproxy.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworkreply.h \
-		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qnetworksession.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qocspresponse.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetwork/qpassworddigestor.h \
@@ -1340,7 +1435,11 @@ mainwindow.o: ../qt-spotify-webapi/mainwindow.cpp ../qt-spotify-webapi/mainwindo
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qoauthoobreplyhandler.h \
 		../../../Qt/5.14.0/gcc_64/include/QtNetworkAuth/qtnetworkauthversion.h \
 		../../../Qt/5.14.0/gcc_64/include/QtCore/QJsonDocument \
-		../../../Qt/5.14.0/gcc_64/include/QtCore/QJsonObject
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QJsonObject \
+		../../../Qt/5.14.0/gcc_64/include/QtCore/QJsonArray \
+		../../../Qt/5.14.0/gcc_64/include/QtNetwork/QNetworkReply \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/QDesktopServices \
+		../../../Qt/5.14.0/gcc_64/include/QtGui/qdesktopservices.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../qt-spotify-webapi/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
