@@ -95,7 +95,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QListWidget" name="playlistList"/>
+      <widget class="QListWidget" name="playlistListWidget"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -167,7 +167,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QListWidget" name="searchList"/>
+      <widget class="QListWidget" name="searchListWidget"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">

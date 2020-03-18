@@ -1,11 +1,11 @@
 #include "track.h"
 
-track::track()
+Track::Track()
 {
 
 }
 
-track::track(QString name, QString artist, QString album, QUrl link)
+Track::Track(QString name, QString artist, QString album, QUrl link)
 {
    this->name = name;
    this->artist = artist;
@@ -13,27 +13,27 @@ track::track(QString name, QString artist, QString album, QUrl link)
    this->link = link;
 }
 
-void track::setName(QString newName)
+void Track::setName(QString newName)
 {
    name = newName;
 }
 
-void track::setArtist(QString newArtist)
+void Track::setArtist(QString newArtist)
 {
     artist = newArtist;
 }
 
-void track::setAlbum(QString newAlbum)
+void Track::setAlbum(QString newAlbum)
 {
     album = newAlbum;
 }
 
-void track::setLink(QUrl newLink)
+void Track::setLink(QUrl newLink)
 {
     link = newLink;
 }
 
-void track::setReleaseDate(QDate newDate)
+void Track::setReleaseDate(QDate newDate)
 {
     release_date = newDate;
 }

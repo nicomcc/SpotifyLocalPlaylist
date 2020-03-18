@@ -5,7 +5,7 @@
 #include <QUrl>
 #include <QDate>
 
-class track
+class Track
 {
 private:
     QString name;
@@ -15,8 +15,8 @@ private:
     QDate release_date;
 
 public:
-    track();
-    track(QString name, QString artist, QString album = "", QUrl link = QUrl());
+    Track();
+    Track(QString name, QString artist, QString album = "", QUrl link = QUrl());
 
     //get methods
     QString getName() {return name;}

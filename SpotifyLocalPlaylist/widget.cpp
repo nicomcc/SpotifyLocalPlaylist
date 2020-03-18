@@ -3,6 +3,7 @@
 
 #include <QtNetworkAuth>
 #include <QDesktopServices>
+#include <QMessageBox>
 
 
 Widget::Widget(QWidget *parent)
@@ -87,19 +88,37 @@ void Widget::on_btSearch_clicked()
                for(int j = 0; j < itemArtist.count(); j++)
                    artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
 
-               class::track searchedTrack(track, artist, album, link);
+               class::Track searchedTrack(track, artist, album, link);
                searchList.append(searchedTrack);
            }
 
-           qDebug () << "List size: " << searchList.count() << endl;
-           ui->searchList->clear();
+           ui->searchListWidget->clear();
            for (int i = 0; i < searchList.count(); i++)
            {
-               ui->searchList->addItem("Track: " + searchList[i].getName() + " Artist: " + searchList[i].getArtist() +
-                                       " Album: " + searchList[i].getAlbum());
+               ui->searchListWidget->addItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
+                                       "        Album: " + searchList[i].getAlbum());
            }
 
           }
        }
     });
+}
+
+void Widget::on_btAdd_clicked()
+{
+    class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
+
+    //if track isn't already on playlist
+    if(!playlist.isTrackAlreadyOnList(selectedTrack))
+    {
+        playlist.AddTrack(selectedTrack);
+
+        ui->playlistListWidget->addItem("Track: " + playlist.getLastTrack().getName() + "        Artist: " + playlist.getLastTrack().getArtist() +
+                                        "        Album: " + playlist.getLastTrack().getAlbum());
+
+        qDebug() << selectedTrack.getName() << "   " << selectedTrack.getArtist() << endl;
+    }
+
+    else
+       QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
 }

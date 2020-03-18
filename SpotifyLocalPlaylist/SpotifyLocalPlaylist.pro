@@ -17,10 +17,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
+    playlist.cpp \
     track.cpp \
     widget.cpp
 
 HEADERS += \
+    playlist.h \
     track.h \
     widget.h
 
