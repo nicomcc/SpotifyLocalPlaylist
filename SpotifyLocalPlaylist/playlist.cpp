@@ -25,7 +25,7 @@ void Playlist::RemoveTrack(Track t)
     if(getSize() > 0)
     {
         for (int i=0; i < getSize(); i++)
-            if (playlist[i].getName() == t.getName())
+            if (playlist[i].getName() == t.getName() && playlist[i].getArtist() == t.getArtist() && playlist[i].getAlbum() == t.getAlbum())
                 playlist.removeAt(i);
     }
 }
@@ -39,7 +39,7 @@ bool Playlist::isTrackAlreadyOnList(Track t)
 {
 
     for (int i=0; i < getSize(); i++)
-        if (playlist[i].getName() == t.getName())
+        if (playlist[i].getName() == t.getName() && playlist[i].getArtist() == t.getArtist() && playlist[i].getAlbum() == t.getAlbum())
             return true;
 
     return false;

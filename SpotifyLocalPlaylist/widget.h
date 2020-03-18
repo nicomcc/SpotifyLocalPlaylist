@@ -28,6 +28,10 @@ private slots:
 
     void on_btRemove_clicked();
 
+    void on_pushButton_7_clicked();
+
+    void on_btPlay_clicked();
+
 private:
     Ui::Widget *ui;
 

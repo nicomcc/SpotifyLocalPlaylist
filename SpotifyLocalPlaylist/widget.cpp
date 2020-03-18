@@ -136,3 +136,35 @@ void Widget::on_btRemove_clicked()
         }
     }
 }
+
+
+void Widget::on_btPlay_clicked()
+{
+   /*if (ui->searchListWidget->currentIndex().row() != -1 && playlist.getSize() > 0)
+   {
+
+    class::Track selectedTrack = playlist.getTrack(ui->playlistListWidget->currentIndex().row());
+
+    QUrl u = selectedTrack.getLink();
+
+    auto reply = spotify.(u);
+
+
+
+
+    connect (reply, &QNetworkReply::finished, [=]() {
+           //if connection finds error
+        if (reply->error() != QNetworkReply::NoError) {
+            qDebug() << reply->errorString() << endl;
+            return;
+        }
+
+        if(!reply->error()){
+
+
+
+        }
+
+        });
+   }*/
+}
