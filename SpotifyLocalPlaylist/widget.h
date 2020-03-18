@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QOAuth2AuthorizationCodeFlow>
+#include "track.h"
+#include <QList>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -23,5 +26,7 @@ private:
     Ui::Widget *ui;
 
     QOAuth2AuthorizationCodeFlow spotify;
+
+    QList <class::track> searchList;
 };
 #endif // WIDGET_H

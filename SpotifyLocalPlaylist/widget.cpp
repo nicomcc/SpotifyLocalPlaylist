@@ -4,6 +4,7 @@
 #include <QtNetworkAuth>
 #include <QDesktopServices>
 
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -54,6 +55,8 @@ void Widget::on_btSearch_clicked()
    if(!reply->error()){
        const auto data = reply->readAll();
 
+       searchList.clear();
+
        QJsonDocument doc = QJsonDocument::fromJson(data);
 
        if (doc.isNull())
@@ -66,7 +69,8 @@ void Widget::on_btSearch_clicked()
        QJsonValue art = root.value("tracks"); // get artists object
        QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
 
-       ui->searchList->clear();
+       QString track, artist, album;
+       QUrl link;
 
        if (items.isArray())
           {
@@ -75,15 +79,26 @@ void Widget::on_btSearch_clicked()
            for(int i = 0; i < itemsArray.count(); i++)
            {
                QJsonObject subItems = itemsArray.at(i).toObject();
-               QJsonArray itemArtist = subItems.value("artists").toArray();
-               QString artist;
-               for(int j = 0; j < itemArtist.count(); j++)
-                   artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist from track
+               track = subItems.value("name").toString();
+               link = subItems.value("external_urls").toObject().value("spotify").toString();
+               album = subItems.value("album").toObject().value("name").toString();
 
-               ui->searchList->addItem("Track: " + subItems.value("name").toString() +
-                                       " Artist: " + artist + " Link: " +
-                                       subItems.value("external_urls").toObject().value("spotify").toString());
+               QJsonArray itemArtist = subItems.value("artists").toArray();
+               for(int j = 0; j < itemArtist.count(); j++)
+                   artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
+
+               class::track searchedTrack(track, artist, album, link);
+               searchList.append(searchedTrack);
            }
+
+           qDebug () << "List size: " << searchList.count() << endl;
+           ui->searchList->clear();
+           for (int i = 0; i < searchList.count(); i++)
+           {
+               ui->searchList->addItem("Track: " + searchList[i].getName() + " Artist: " + searchList[i].getArtist() +
+                                       " Album: " + searchList[i].getAlbum());
+           }
+
           }
        }
     });
