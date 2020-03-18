@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "track.h"
+#include <QDebug>
 
 class Playlist : Track
 {
@@ -18,6 +19,7 @@ public:
 
     void Update(QList<Track> pl);
     void AddTrack(Track t);
+    void RemoveTrack(Track t);
 
     Track getTrack(int index);
     Track getLastTrack() {return playlist[getSize()-1];}

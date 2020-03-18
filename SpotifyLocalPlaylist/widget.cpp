@@ -35,9 +35,6 @@ Widget::~Widget()
     delete ui;
 }
 
-
-
-
 void Widget::on_btSearch_clicked()
 {
     QString track = ui->lineMusic->text();
@@ -106,19 +103,36 @@ void Widget::on_btSearch_clicked()
 
 void Widget::on_btAdd_clicked()
 {
-    class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
-
-    //if track isn't already on playlist
-    if(!playlist.isTrackAlreadyOnList(selectedTrack))
+    //check if any row is selected
+    if (ui->searchListWidget->currentIndex().row() != -1)
     {
-        playlist.AddTrack(selectedTrack);
+        class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
 
-        ui->playlistListWidget->addItem("Track: " + playlist.getLastTrack().getName() + "        Artist: " + playlist.getLastTrack().getArtist() +
-                                        "        Album: " + playlist.getLastTrack().getAlbum());
+        //if track isn't already on playlist
+        if(!playlist.isTrackAlreadyOnList(selectedTrack))
+        {
+            playlist.AddTrack(selectedTrack);
 
-        qDebug() << selectedTrack.getName() << "   " << selectedTrack.getArtist() << endl;
+            ui->playlistListWidget->addItem("Track: " + playlist.getLastTrack().getName() + "        Artist: " + playlist.getLastTrack().getArtist() +
+                                            "        Album: " + playlist.getLastTrack().getAlbum());
+        }
+
+        else
+           QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
     }
+}
 
-    else
-       QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
+
+void Widget::on_btRemove_clicked()
+{
+    if (playlist.getSize() > 0)
+    {
+        //check if row is selected
+        if (ui->playlistListWidget->currentIndex().row() != -1)
+        {
+            Track selectedTrack = playlist.getTrack(ui->playlistListWidget->currentIndex().row());
+            playlist.RemoveTrack(selectedTrack);
+            ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());
+        }
+    }
 }

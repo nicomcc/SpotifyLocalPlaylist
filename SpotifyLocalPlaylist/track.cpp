@@ -5,6 +5,11 @@ Track::Track()
 
 }
 
+Track::Track(QString name)
+{
+    this->name = name;
+}
+
 Track::Track(QString name, QString artist, QString album, QUrl link)
 {
    this->name = name;

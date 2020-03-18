@@ -16,6 +16,7 @@ private:
 
 public:
     Track();
+    Track(QString name);
     Track(QString name, QString artist, QString album = "", QUrl link = QUrl());
 
     //get methods

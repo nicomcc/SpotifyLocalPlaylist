@@ -26,6 +26,8 @@ private slots:
 
     void on_btAdd_clicked();
 
+    void on_btRemove_clicked();
+
 private:
     Ui::Widget *ui;
 
