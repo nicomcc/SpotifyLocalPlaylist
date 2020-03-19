@@ -5,6 +5,11 @@ Playlist::Playlist()
 
 }
 
+Playlist::Playlist(QString n)
+{
+    name = n;
+}
+
 Playlist::Playlist(QList<Track> pl)
 {
     playlist = pl;

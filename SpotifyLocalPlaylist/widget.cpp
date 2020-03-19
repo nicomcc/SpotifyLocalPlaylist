@@ -110,12 +110,12 @@ void Widget::on_btAdd_clicked()
         class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
 
         //if track isn't already on playlist
-        if(!playlist.isTrackAlreadyOnList(selectedTrack))
+        if(!user[ui->comboBox->currentIndex()].isTrackAlreadyOnList(selectedTrack))
         {
-            playlist.AddTrack(selectedTrack);
+            user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
 
-            ui->playlistListWidget->addItem("Track: " + playlist.getLastTrack().getName() + "        Artist: " + playlist.getLastTrack().getArtist() +
-                                            "        Album: " + playlist.getLastTrack().getAlbum());
+            ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
+                                            "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
         }
 
         else
@@ -126,13 +126,13 @@ void Widget::on_btAdd_clicked()
 
 void Widget::on_btRemove_clicked()
 {
-    if (playlist.getSize() > 0)
+    if (user[ui->comboBox->currentIndex()].getSize() > 0)
     {
         //check if row is selected
         if (ui->playlistListWidget->currentIndex().row() != -1)
         {
-            Track selectedTrack = playlist.getTrack(ui->playlistListWidget->currentIndex().row());
-            playlist.RemoveTrack(selectedTrack);
+            Track selectedTrack = user[ui->comboBox->currentIndex()].getTrack(ui->playlistListWidget->currentIndex().row());
+            user[ui->comboBox->currentIndex()].RemoveTrack(selectedTrack);
             ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());
         }
     }
@@ -182,5 +182,50 @@ void Widget::on_btCreatePlaylist_clicked()
 
 
     if (dlg->getName() != "")
-         ui->comboBox->addItem(dlg->getName());
+    {
+        ui->comboBox->addItem(dlg->getName());
+        Playlist a(dlg->getName());
+        user.append(a);
+        saveUser();
+       // playlist = user[user.count()-1];
+    }
+}
+
+void Widget::saveUser()
+{
+    QJsonDocument doc;
+
+    QJsonArray arPList;
+    QJsonArray arTracks;
+    for (int i = 0; i < user.count(); i++)
+    {
+
+        for (int j = 0; j < user[i].getSize(); j++)
+        {
+        QJsonObject pTrack;
+        pTrack.insert("name", user[i].getTrack(j).getName());
+        pTrack.insert("album", user[i].getTrack(j).getAlbum());
+        pTrack.insert("artist", user[i].getTrack(j).getArtist());
+        arTracks.push_back(pTrack);
+        }
+
+        QJsonObject pList;
+        pList.insert("name", user[i].getName());
+        pList.insert("tracks", arTracks);
+
+        arPList.push_back(pList);
+    }
+
+    QJsonObject defaultUser;
+    defaultUser.insert("playlists", arPList);
+    defaultUser.insert("name", "localUser");
+
+    doc.setObject(defaultUser);
+
+    qDebug() << doc << endl;
+}
+
+void Widget::on_btSave_clicked()
+{
+    saveUser();
 }

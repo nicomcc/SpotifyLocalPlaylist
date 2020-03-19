@@ -16,7 +16,10 @@ public:
 
 
     Playlist();
+    Playlist(QString n);
     Playlist(QList<Track> pl);
+
+    QString getName() {return name;}
 
     void setName (QString n);
 

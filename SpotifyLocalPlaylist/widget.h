@@ -33,14 +33,18 @@ private slots:
 
     void on_btCreatePlaylist_clicked();
 
+    void on_btSave_clicked();
+
 private:
     Ui::Widget *ui;
 
     QOAuth2AuthorizationCodeFlow spotify;
 
+    void saveUser();
+
     QList <class::Track> searchList;
 
-    //QList <QString> playlistNames;
+    QList <Playlist> user;
 
     Playlist playlist;
 };
