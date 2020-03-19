@@ -32,6 +32,8 @@ private:
 
     QList<QString> playlistNames;
     QString name;
+
+    bool isThereInvalidCharacters(QString s);
 };
 
 #endif // PLAYLISTNAME_H

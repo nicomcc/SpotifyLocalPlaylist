@@ -183,5 +183,4 @@ void Widget::on_btCreatePlaylist_clicked()
 
     if (dlg->getName() != "")
          ui->comboBox->addItem(dlg->getName());
-    qDebug() << dlg->getName() << endl;
 }

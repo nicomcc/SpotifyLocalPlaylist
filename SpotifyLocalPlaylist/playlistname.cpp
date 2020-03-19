@@ -6,6 +6,7 @@ playlistName::playlistName(QWidget *parent) :
     ui(new Ui::playlistName)
 {
     ui->setupUi(this);
+    setFixedSize(this->width(),this->height());
 }
 
 playlistName::~playlistName()
@@ -23,7 +24,12 @@ void playlistName::on_buttonBox_accepted()
            QMessageBox::warning(this, "Error", "Playlist name is already being used", QMessageBox::Ok);
            return;
        }
-       qDebug() << playlistNames[i] << endl;
+   }
+
+   if (isThereInvalidCharacters(ui->lineEdit->text()))
+   {
+       QMessageBox::warning(this, "Error", "Name contains invalid character", QMessageBox::Ok);
+        return;
    }
 
    name = ui->lineEdit->text();
@@ -33,6 +39,22 @@ void playlistName::on_buttonBox_accepted()
 void playlistName::on_buttonBox_rejected()
 {
     reject();
+}
+
+bool playlistName::isThereInvalidCharacters(QString s)
+{
+    s =  ui->lineEdit->text();
+    for (int i = 0; i < s.count(); i++)
+    {
+        QChar c = s[i];
+        if (c.unicode() < 48  || c.unicode() > 122)
+            return true;
+        if (c.unicode() > 57 && c.unicode() < 65)
+            return true;
+        if (c.unicode() > 90 && c.unicode() < 97)
+            return true;
+    }
+    return false;
 }
 
 QString playlistName::getName()
