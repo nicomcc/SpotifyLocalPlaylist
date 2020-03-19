@@ -9,6 +9,7 @@ class Playlist : Track
 {
 
 private:
+    QString name;
     QList <Track> playlist;
 
 public:
@@ -16,6 +17,8 @@ public:
 
     Playlist();
     Playlist(QList<Track> pl);
+
+    void setName (QString n);
 
     void Update(QList<Track> pl);
     void AddTrack(Track t);

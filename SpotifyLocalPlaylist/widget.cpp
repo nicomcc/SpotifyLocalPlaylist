@@ -35,6 +35,7 @@ Widget::~Widget()
     delete ui;
 }
 
+
 void Widget::on_btSearch_clicked()
 {
     QString track = ui->lineMusic->text();
@@ -147,7 +148,7 @@ void Widget::on_btPlay_clicked()
 
     QUrl u = selectedTrack.getLink();
 
-    auto reply = spotify.(u);
+    auto reply = spotify.put(u);
 
 
 
@@ -161,10 +162,26 @@ void Widget::on_btPlay_clicked()
 
         if(!reply->error()){
 
-
-
         }
 
         });
    }*/
+}
+
+void Widget::on_btCreatePlaylist_clicked()
+{
+    playlistName *dlg = new playlistName(this);
+
+    QList <QString> names;
+    for (int i=0; i < ui->comboBox->count(); i++)
+        names.append(ui->comboBox->itemText(i));
+
+    dlg->setPlaylistNames(names);
+
+    dlg->exec();
+
+
+    if (dlg->getName() != "")
+         ui->comboBox->addItem(dlg->getName());
+    qDebug() << dlg->getName() << endl;
 }

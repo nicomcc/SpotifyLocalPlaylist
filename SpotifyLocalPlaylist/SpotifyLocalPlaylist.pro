@@ -18,15 +18,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     playlist.cpp \
+    playlistname.cpp \
     track.cpp \
     widget.cpp
 
 HEADERS += \
     playlist.h \
+    playlistname.h \
     track.h \
     widget.h
 
 FORMS += \
+    playlistname.ui \
     widget.ui
 
 # Default rules for deployment.

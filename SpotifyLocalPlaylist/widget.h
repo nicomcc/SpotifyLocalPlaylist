@@ -6,8 +6,7 @@
 #include "track.h"
 #include <QList>
 #include "playlist.h"
-
-
+#include "playlistname.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -32,13 +31,16 @@ private slots:
 
     void on_btPlay_clicked();
 
+    void on_btCreatePlaylist_clicked();
+
 private:
     Ui::Widget *ui;
 
     QOAuth2AuthorizationCodeFlow spotify;
 
     QList <class::Track> searchList;
-    //QList <class::track> playlistList;
+
+    //QList <QString> playlistNames;
 
     Playlist playlist;
 };

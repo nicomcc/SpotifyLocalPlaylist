@@ -10,6 +10,11 @@ Playlist::Playlist(QList<Track> pl)
     playlist = pl;
 }
 
+void Playlist::setName(QString n)
+{
+    name = n;
+}
+
 void Playlist::Update(QList<Track> pl)
 {
     playlist = pl;
