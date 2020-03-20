@@ -37,17 +37,20 @@ private slots:
 
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
+    void on_btDeletePl_clicked();
+
 private:
     Ui::Widget *ui;
 
     QOAuth2AuthorizationCodeFlow spotify;
 
     void saveUser();
+    void updatePlaylistWidget(Playlist p);
 
     QList <class::Track> searchList;
 
     QList <Playlist> user;
 
-    Playlist playlist;
+   // Playlist playlist;
 };
 #endif // WIDGET_H

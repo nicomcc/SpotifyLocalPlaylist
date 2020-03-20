@@ -36,6 +36,11 @@
          <height>16777215</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>&lt;no playlists&gt;</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>

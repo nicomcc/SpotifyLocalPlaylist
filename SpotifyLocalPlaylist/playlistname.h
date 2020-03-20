@@ -34,6 +34,7 @@ private:
     QString name;
 
     bool isThereInvalidCharacters(QString s);
+    bool isThereNonSpaceCharacter(QString s);
 };
 
 #endif // PLAYLISTNAME_H

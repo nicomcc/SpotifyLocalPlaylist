@@ -28,6 +28,7 @@ Widget::Widget(QWidget *parent)
              &QDesktopServices::openUrl);
 
     spotify.grant();
+
 }
 
 Widget::~Widget()
@@ -193,7 +194,12 @@ void Widget::on_btCreatePlaylist_clicked()
     {
         Playlist a(dlg->getName());
         user.append(a);
-        ui->comboBox->addItem(dlg->getName());
+
+        if(ui->comboBox->count() == 1 && user.count() == 1)
+            ui->comboBox->setItemText(0, dlg->getName());
+
+        else
+            ui->comboBox->addItem(dlg->getName());
 
         //change index to last added
         ui->comboBox->setCurrentIndex(ui->comboBox->count()-1);
@@ -237,6 +243,19 @@ void Widget::saveUser()
     qDebug() << doc << endl;
 }
 
+void Widget::updatePlaylistWidget(Playlist p)
+{
+    ui->playlistListWidget->clear();
+   if (ui->comboBox->count() > 0)
+   {
+       for (int i=0; i < p.getSize(); i++)
+       {
+           ui->playlistListWidget->addItem("Track: " + p.getTrack(i).getName() + "        Artist: " + p.getTrack(i).getArtist() +
+                                          "        Album: " + p.getTrack(i).getAlbum());
+       }
+   }
+}
+
 void Widget::on_btSave_clicked()
 {
   /*  for (int i = 0; i < user.count(); i++)
@@ -252,8 +271,8 @@ void Widget::on_btSave_clicked()
 
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    ui->playlistListWidget->clear();
     ui->label->setText("Playlist: " + ui->comboBox->currentText());
+     /*ui->playlistListWidget->clear();
     if (ui->comboBox->count() > 0)
     {
         for (int i=0; i < user[ui->comboBox->currentIndex()].getSize(); i++)
@@ -261,5 +280,29 @@ void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
             ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getTrack(i).getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getTrack(i).getArtist() +
                                            "        Album: " + user[ui->comboBox->currentIndex()].getTrack(i).getAlbum());
         }
+    }*/
+    updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
+}
+
+void Widget::on_btDeletePl_clicked()
+{
+    if(ui->comboBox->count() > 1)
+    {
+        qDebug() << "remove";
+        user.removeAt(ui->comboBox->currentIndex());
+        ui->comboBox->removeItem(ui->comboBox->currentIndex());
+        updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
+        saveUser();
+    }
+    else if (ui->comboBox->count() == 1 && user.count() > 0)
+    {
+        user.removeAt(ui->comboBox->currentIndex());
+        ui->comboBox->setItemText(0, "<no playlists>");
+        ui->playlistListWidget->clear();
+        saveUser();
+    }
+    else if (ui->comboBox->count() == 1 && user.count() == 0)
+    {
+        QMessageBox::warning(this, "Message", "User has no playlist!", QMessageBox::Ok);
     }
 }

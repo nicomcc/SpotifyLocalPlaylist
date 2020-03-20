@@ -32,6 +32,18 @@ void playlistName::on_buttonBox_accepted()
         return;
    }
 
+   if (ui->lineEdit->text() == "")
+   {
+       QMessageBox::warning(this, "Error", "You must enter a playlist name!", QMessageBox::Ok);
+        return;
+   }
+
+   if (!isThereNonSpaceCharacter(ui->lineEdit->text()))
+   {
+       QMessageBox::warning(this, "Error", "Playlist must have non space character!", QMessageBox::Ok);
+        return;
+   }
+
    name = ui->lineEdit->text();
    accept();
 }
@@ -55,6 +67,15 @@ bool playlistName::isThereInvalidCharacters(QString s)
         if ((c.unicode() > 90 && c.unicode() < 97) && c.unicode() != 95)
             return true;
     }
+    return false;
+}
+
+bool playlistName::isThereNonSpaceCharacter(QString s)
+{
+    s =  ui->lineEdit->text();
+    for (int i = 0; i < s.count(); i++)
+        if (s[i].unicode() != 32)
+            return true;
     return false;
 }
 
