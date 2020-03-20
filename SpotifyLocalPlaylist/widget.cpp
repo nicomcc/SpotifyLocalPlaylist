@@ -39,6 +39,8 @@ Widget::~Widget()
 void Widget::on_btSearch_clicked()
 {
     QString track = ui->lineMusic->text();
+    if(track != "")
+    {
     QUrl u ("https://api.spotify.com/v1/search?q=" + track + "&type=track");
 
     auto reply = spotify.get(u);
@@ -100,6 +102,7 @@ void Widget::on_btSearch_clicked()
           }
        }
     });
+    }
 }
 
 void Widget::on_btAdd_clicked()
@@ -116,6 +119,7 @@ void Widget::on_btAdd_clicked()
 
             ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
                                             "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
+            saveUser();
         }
 
         else
@@ -126,14 +130,18 @@ void Widget::on_btAdd_clicked()
 
 void Widget::on_btRemove_clicked()
 {
-    if (user[ui->comboBox->currentIndex()].getSize() > 0)
+    if (ui->comboBox->count() > 0)
     {
-        //check if row is selected
-        if (ui->playlistListWidget->currentIndex().row() != -1)
+        if (user[ui->comboBox->currentIndex()].getSize() > 0)
         {
-            Track selectedTrack = user[ui->comboBox->currentIndex()].getTrack(ui->playlistListWidget->currentIndex().row());
-            user[ui->comboBox->currentIndex()].RemoveTrack(selectedTrack);
-            ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());
+            //check if row is selected
+            if (ui->playlistListWidget->currentIndex().row() != -1)
+            {
+                Track selectedTrack = user[ui->comboBox->currentIndex()].getTrack(ui->playlistListWidget->currentIndex().row());
+                user[ui->comboBox->currentIndex()].RemoveTrack(selectedTrack);
+                ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());
+                saveUser();
+            }
         }
     }
 }
@@ -183,11 +191,14 @@ void Widget::on_btCreatePlaylist_clicked()
 
     if (dlg->getName() != "")
     {
-        ui->comboBox->addItem(dlg->getName());
         Playlist a(dlg->getName());
         user.append(a);
+        ui->comboBox->addItem(dlg->getName());
+
+        //change index to last added
+        ui->comboBox->setCurrentIndex(ui->comboBox->count()-1);
+
         saveUser();
-       // playlist = user[user.count()-1];
     }
 }
 
@@ -196,12 +207,13 @@ void Widget::saveUser()
     QJsonDocument doc;
 
     QJsonArray arPList;
-    QJsonArray arTracks;
+
     for (int i = 0; i < user.count(); i++)
     {
-
+        QJsonArray arTracks;
         for (int j = 0; j < user[i].getSize(); j++)
         {
+
         QJsonObject pTrack;
         pTrack.insert("name", user[i].getTrack(j).getName());
         pTrack.insert("album", user[i].getTrack(j).getAlbum());
@@ -227,5 +239,27 @@ void Widget::saveUser()
 
 void Widget::on_btSave_clicked()
 {
+  /*  for (int i = 0; i < user.count(); i++)
+    {
+        for (int j = 0; j < user[i].getSize(); j++)
+        {
+        qDebug() << "playlist " << i <<"track: " << j << user[i].getTrack(j).getName() << user[i].getTrack(j).getAlbum() << user[i].getTrack(j).getArtist();
+        }
+    }*/
+
     saveUser();
+}
+
+void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->playlistListWidget->clear();
+    ui->label->setText("Playlist: " + ui->comboBox->currentText());
+    if (ui->comboBox->count() > 0)
+    {
+        for (int i=0; i < user[ui->comboBox->currentIndex()].getSize(); i++)
+        {
+            ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getTrack(i).getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getTrack(i).getArtist() +
+                                           "        Album: " + user[ui->comboBox->currentIndex()].getTrack(i).getAlbum());
+        }
+    }
 }

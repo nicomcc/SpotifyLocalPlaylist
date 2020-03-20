@@ -8,6 +8,7 @@ Playlist::Playlist()
 Playlist::Playlist(QString n)
 {
     name = n;
+    playlist.clear();
 }
 
 Playlist::Playlist(QList<Track> pl)

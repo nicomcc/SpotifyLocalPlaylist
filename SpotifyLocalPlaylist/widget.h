@@ -35,6 +35,8 @@ private slots:
 
     void on_btSave_clicked();
 
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget *ui;
 

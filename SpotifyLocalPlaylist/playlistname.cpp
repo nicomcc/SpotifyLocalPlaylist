@@ -47,11 +47,12 @@ bool playlistName::isThereInvalidCharacters(QString s)
     for (int i = 0; i < s.count(); i++)
     {
         QChar c = s[i];
-        if (c.unicode() < 48  || c.unicode() > 122)
+
+        if ((c.unicode() < 48  || c.unicode() > 122) && c.unicode() != 32)
             return true;
         if (c.unicode() > 57 && c.unicode() < 65)
             return true;
-        if (c.unicode() > 90 && c.unicode() < 97)
+        if ((c.unicode() > 90 && c.unicode() < 97) && c.unicode() != 95)
             return true;
     }
     return false;
