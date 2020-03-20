@@ -7,6 +7,7 @@
 #include <QList>
 #include "playlist.h"
 #include "playlistname.h"
+#include <QFile>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -45,7 +46,9 @@ private:
     QOAuth2AuthorizationCodeFlow spotify;
 
     void saveUser();
+    void loadUser();
     void updatePlaylistWidget(Playlist p);
+    void updateComboBox();
 
     QList <class::Track> searchList;
 

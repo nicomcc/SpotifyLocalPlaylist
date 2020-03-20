@@ -12,6 +12,8 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    loadUser();
+
     const QString clientId = "eaf37929f4c24661ab28bd1854576bce";
     const QString clientSecret = "d166eb2ab7c841cb941bc50a54f7832f";
 
@@ -241,6 +243,56 @@ void Widget::saveUser()
     doc.setObject(defaultUser);
 
     qDebug() << doc << endl;
+
+    QString filename = "localUser.json";
+    QFile file(filename);
+
+    if(!file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+    {
+        qDebug() << "failed to open file" << endl;
+        return;
+    }
+    file.write(doc.toJson());
+    file.close();
+}
+
+void Widget::loadUser()
+{
+    QString filename = "localUser.json";
+    QFile file(filename);
+    if(!file.open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "failed to open file" << endl;
+        return;
+    }
+
+    QJsonParseError JsonParseError;
+    QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+    file.close();
+
+    qDebug() << doc << endl;
+
+    QJsonObject root = doc.object();  // root contains only one object, artist
+    QJsonArray playlistsArray = root.value("playlists").toArray(); // get artists object
+
+    for(int i = 0; i < playlistsArray.count(); i++)
+    {
+        QString playlistName = playlistsArray[i].toObject().value("name").toString();
+        Playlist p(playlistName);
+        user.append(p);
+        QJsonArray tracks = playlistsArray[i].toObject().value("tracks").toArray();
+        for (int j = 0; j < tracks.count(); j++)
+        {
+            QString trackName, trackAlbum, trackArtist;
+            trackName = tracks[j].toObject().value("name").toString();
+            trackAlbum = tracks[j].toObject().value("album").toString();
+            trackArtist = tracks[j].toObject().value("artist").toString();
+            Track t (trackName, trackArtist, trackAlbum);
+            user[i].AddTrack(t);
+        }
+    }
+
+    updateComboBox();
 }
 
 void Widget::updatePlaylistWidget(Playlist p)
@@ -254,6 +306,23 @@ void Widget::updatePlaylistWidget(Playlist p)
                                           "        Album: " + p.getTrack(i).getAlbum());
        }
    }
+}
+
+void Widget::updateComboBox()
+{
+    if (user.count() > 0)
+    {
+        for (int i = 0; i < user.count(); i++)
+        {
+            if (i == 0)
+                ui->comboBox->setItemText(0, user[i].getName());
+            else
+                ui->comboBox->addItem(user[i].getName());
+        }
+
+        updatePlaylistWidget(user[0]);
+    }
+
 }
 
 void Widget::on_btSave_clicked()
