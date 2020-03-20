@@ -286,20 +286,29 @@ void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
 
 void Widget::on_btDeletePl_clicked()
 {
-    if(ui->comboBox->count() > 1)
+    if(user.count() > 0)
     {
-        qDebug() << "remove";
-        user.removeAt(ui->comboBox->currentIndex());
-        ui->comboBox->removeItem(ui->comboBox->currentIndex());
-        updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
-        saveUser();
-    }
-    else if (ui->comboBox->count() == 1 && user.count() > 0)
-    {
-        user.removeAt(ui->comboBox->currentIndex());
-        ui->comboBox->setItemText(0, "<no playlists>");
-        ui->playlistListWidget->clear();
-        saveUser();
+        QMessageBox::StandardButton confirm;
+        confirm = QMessageBox::question(this, "Message", "Are you sure you want to delete <" + ui->comboBox->currentText() + "> playlist?",
+                                        QMessageBox::Yes|QMessageBox::No);
+        if (confirm == QMessageBox::Yes)
+        {
+            if(ui->comboBox->count() > 1)
+            {
+                user.removeAt(ui->comboBox->currentIndex());
+                ui->comboBox->removeItem(ui->comboBox->currentIndex());
+                updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
+                saveUser();
+            }
+            else if (ui->comboBox->count() == 1 && user.count() > 0)
+            {
+                user.removeAt(ui->comboBox->currentIndex());
+                ui->comboBox->setItemText(0, "<no playlists>");
+                ui->playlistListWidget->clear();
+                saveUser();
+            }
+
+        }
     }
     else if (ui->comboBox->count() == 1 && user.count() == 0)
     {
