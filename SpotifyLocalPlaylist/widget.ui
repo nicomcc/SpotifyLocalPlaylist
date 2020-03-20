@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
-    <height>457</height>
+    <width>615</width>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,19 +35,6 @@
          <width>16777215</width>
          <height>16777215</height>
         </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Load Playlist</string>
        </property>
       </widget>
      </item>
@@ -87,6 +74,19 @@
       <widget class="QPushButton" name="btCreatePlaylist">
        <property name="text">
         <string>Create Playlist</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btDeletePl">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Delete Playlist</string>
        </property>
       </widget>
      </item>
@@ -181,7 +181,7 @@
        <item>
         <widget class="QPushButton" name="btAdd">
          <property name="text">
-          <string>Add to this Playlist</string>
+          <string>Add to Playlist</string>
          </property>
         </widget>
        </item>
