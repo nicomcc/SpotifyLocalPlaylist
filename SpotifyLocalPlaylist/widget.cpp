@@ -102,8 +102,14 @@ void Widget::on_btSearch_clicked()
            ui->searchListWidget->clear();
            for (int i = 0; i < searchList.count(); i++)
            {
-               ui->searchListWidget->addItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
-                                       "        Album: " + searchList[i].getAlbum());
+               QListWidgetItem* pItem =new QListWidgetItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
+                                                  "        Album: " + searchList[i].getAlbum());
+               if(searchList[i].getPreview().toString() == "")
+                  pItem->setForeground(Qt::red);
+               // ui->searchListWidget->addItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
+                //                       "        Album: " + searchList[i].getAlbum());
+
+               ui->searchListWidget->addItem(pItem);
            }
 
           }
@@ -158,17 +164,19 @@ void Widget::on_btPlay_clicked()
 {
     if(user[ui->comboBox->currentIndex()].getSize() > 0)
     {
-        QMplaylist = new QMediaPlaylist();
-
-        for(int i =0; i < user[ui->comboBox->currentIndex()].getSize();++i)
+        if(QMPlayer->state()!= QMediaPlayer::PausedState)
         {
-          if (user[ui->comboBox->currentIndex()].getTrack(i).getPreview().toString() != "")
-              QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
+            QMplaylist = new QMediaPlaylist();
 
+            for(int i =0; i < user[ui->comboBox->currentIndex()].getSize();++i)
+            {
+              if (user[ui->comboBox->currentIndex()].getTrack(i).getPreview().toString() != "")
+                  QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
+
+            }
+
+            QMPlayer->setPlaylist(QMplaylist);
         }
-
-        QMPlayer->setPlaylist(QMplaylist);
-
         QMPlayer->play();
       }
     else
@@ -384,4 +392,9 @@ void Widget::on_btDeletePl_clicked()
     {
         QMessageBox::warning(this, "Message", "User has no playlist!", QMessageBox::Ok);
     }
+}
+
+void Widget::on_btPause_clicked()
+{
+    QMPlayer->pause();
 }

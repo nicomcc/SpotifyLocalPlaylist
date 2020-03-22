@@ -42,6 +42,8 @@ private slots:
 
     void on_btDeletePl_clicked();
 
+    void on_btPause_clicked();
+
 private:
     Ui::Widget *ui;
 
