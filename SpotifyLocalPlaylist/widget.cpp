@@ -24,12 +24,15 @@ Widget::Widget(QWidget *parent)
     spotify.setAccessTokenUrl(QUrl("https://accounts.spotify.com/api/token"));
     spotify.setClientIdentifier(clientId);
     spotify.setClientIdentifierSharedKey(clientSecret);
-    spotify.setScope("user-read-private user-top-read playlist-read-private playlist-modify-public playlist-modify-private");
+    spotify.setScope("user-read-private user-top-read playlist-read-private playlist-modify-public playlist-modify-private user-modify-playback-state");
 
     connect(&spotify, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser,
              &QDesktopServices::openUrl);
 
     spotify.grant();
+
+    QMPlayer = new QMediaPlayer();
+    QMplaylist = new QMediaPlaylist();
 
 }
 
@@ -74,7 +77,7 @@ void Widget::on_btSearch_clicked()
        QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
 
        QString track, artist, album;
-       QUrl link;
+       QUrl link, preview;
 
        if (items.isArray())
           {
@@ -84,6 +87,7 @@ void Widget::on_btSearch_clicked()
            {
                QJsonObject subItems = itemsArray.at(i).toObject();
                track = subItems.value("name").toString();
+               preview = subItems.value("preview_url").toString();
                link = subItems.value("external_urls").toObject().value("spotify").toString();
                album = subItems.value("album").toObject().value("name").toString();
 
@@ -91,7 +95,7 @@ void Widget::on_btSearch_clicked()
                for(int j = 0; j < itemArtist.count(); j++)
                    artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
 
-               class::Track searchedTrack(track, artist, album, link);
+               class::Track searchedTrack(track, artist, album, link, preview);
                searchList.append(searchedTrack);
            }
 
@@ -152,31 +156,24 @@ void Widget::on_btRemove_clicked()
 
 void Widget::on_btPlay_clicked()
 {
-   /*if (ui->searchListWidget->currentIndex().row() != -1 && playlist.getSize() > 0)
-   {
+    if(user[ui->comboBox->currentIndex()].getSize() > 0)
+    {
+        QMplaylist = new QMediaPlaylist();
 
-    class::Track selectedTrack = playlist.getTrack(ui->playlistListWidget->currentIndex().row());
-
-    QUrl u = selectedTrack.getLink();
-
-    auto reply = spotify.put(u);
-
-
-
-
-    connect (reply, &QNetworkReply::finished, [=]() {
-           //if connection finds error
-        if (reply->error() != QNetworkReply::NoError) {
-            qDebug() << reply->errorString() << endl;
-            return;
-        }
-
-        if(!reply->error()){
+        for(int i =0; i < user[ui->comboBox->currentIndex()].getSize();++i)
+        {
+          if (user[ui->comboBox->currentIndex()].getTrack(i).getPreview().toString() != "")
+              QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
 
         }
 
-        });
-   }*/
+        QMPlayer->setPlaylist(QMplaylist);
+
+        QMPlayer->play();
+      }
+    else
+        QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
+
 }
 
 void Widget::on_btCreatePlaylist_clicked()
@@ -221,12 +218,12 @@ void Widget::saveUser()
         QJsonArray arTracks;
         for (int j = 0; j < user[i].getSize(); j++)
         {
-
-        QJsonObject pTrack;
-        pTrack.insert("name", user[i].getTrack(j).getName());
-        pTrack.insert("album", user[i].getTrack(j).getAlbum());
-        pTrack.insert("artist", user[i].getTrack(j).getArtist());
-        arTracks.push_back(pTrack);
+            QJsonObject pTrack;
+            pTrack.insert("name", user[i].getTrack(j).getName());
+            pTrack.insert("album", user[i].getTrack(j).getAlbum());
+            pTrack.insert("artist", user[i].getTrack(j).getArtist());
+            pTrack.insert("preview_link", user[i].getTrack(j).getPreview().toString());
+            arTracks.push_back(pTrack);
         }
 
         QJsonObject pList;
@@ -249,7 +246,7 @@ void Widget::saveUser()
 
     if(!file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
     {
-        qDebug() << "failed to open file" << endl;
+        QMessageBox::warning(this, "Message", "Failed to save file!", QMessageBox::Ok);
         return;
     }
     file.write(doc.toJson());
@@ -262,7 +259,7 @@ void Widget::loadUser()
     QFile file(filename);
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
-        qDebug() << "failed to open file" << endl;
+        QMessageBox::warning(this, "Message", "Failed to load file!", QMessageBox::Ok);
         return;
     }
 
@@ -278,6 +275,8 @@ void Widget::loadUser()
     for(int i = 0; i < playlistsArray.count(); i++)
     {
         QString playlistName = playlistsArray[i].toObject().value("name").toString();
+        QUrl link, preview;
+
         Playlist p(playlistName);
         user.append(p);
         QJsonArray tracks = playlistsArray[i].toObject().value("tracks").toArray();
@@ -287,7 +286,9 @@ void Widget::loadUser()
             trackName = tracks[j].toObject().value("name").toString();
             trackAlbum = tracks[j].toObject().value("album").toString();
             trackArtist = tracks[j].toObject().value("artist").toString();
-            Track t (trackName, trackArtist, trackAlbum);
+            link = tracks[j].toObject().value("link").toString();
+            preview = tracks[j].toObject().value("preview_link").toString();
+            Track t (trackName, trackArtist, trackAlbum, link, preview);
             user[i].AddTrack(t);
         }
     }

@@ -10,12 +10,13 @@ Track::Track(QString name)
     this->name = name;
 }
 
-Track::Track(QString name, QString artist, QString album, QUrl link)
+Track::Track(QString name, QString artist, QString album, QUrl link, QUrl preview)
 {
    this->name = name;
    this->artist = artist;
    this->album = album;
    this->link = link;
+   this->preview = preview;
 }
 
 void Track::setName(QString newName)
@@ -36,6 +37,11 @@ void Track::setAlbum(QString newAlbum)
 void Track::setLink(QUrl newLink)
 {
     link = newLink;
+}
+
+void Track::setPreview(QUrl p)
+{
+    preview = p;
 }
 
 void Track::setReleaseDate(QDate newDate)

@@ -8,6 +8,8 @@
 #include "playlist.h"
 #include "playlistname.h"
 #include <QFile>
+#include <QMediaPlaylist>
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -28,7 +30,7 @@ private slots:
 
     void on_btRemove_clicked();
 
-    void on_pushButton_7_clicked();
+    //void on_pushButton_7_clicked();
 
     void on_btPlay_clicked();
 
@@ -53,6 +55,9 @@ private:
     QList <class::Track> searchList;
 
     QList <Playlist> user;
+
+    QMediaPlayer *QMPlayer;
+    QMediaPlaylist *QMplaylist;
 
    // Playlist playlist;
 };
