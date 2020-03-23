@@ -34,6 +34,9 @@ Widget::Widget(QWidget *parent)
     QMPlayer = new QMediaPlayer();
     QMplaylist = new QMediaPlaylist();
 
+    if(user.count() > 0)
+        ui->label->setText("Playlist: " + ui->comboBox->currentText());
+
 }
 
 Widget::~Widget()
@@ -47,74 +50,72 @@ void Widget::on_btSearch_clicked()
     QString track = ui->lineMusic->text();
     if(track != "")
     {
-    QUrl u ("https://api.spotify.com/v1/search?q=" + track + "&type=track");
+        QUrl u ("https://api.spotify.com/v1/search?q=" + track + "&type=track");
 
-    auto reply = spotify.get(u);
+        auto reply = spotify.get(u);
 
 
-    connect (reply, &QNetworkReply::finished, [=]() {
-           //if connection finds error
-        if (reply->error() != QNetworkReply::NoError) {
-            qDebug() << reply->errorString() << endl;
-            return;
-        }
+        connect (reply, &QNetworkReply::finished, [=]() {
+               //if connection finds error
+            if (reply->error() != QNetworkReply::NoError) {
+                qDebug() << reply->errorString() << endl;
+                return;
+            }
 
-   if(!reply->error()){
-       const auto data = reply->readAll();
+       if(!reply->error()){
+           const auto data = reply->readAll();
 
-       searchList.clear();
+           searchList.clear();
 
-       QJsonDocument doc = QJsonDocument::fromJson(data);
+           QJsonDocument doc = QJsonDocument::fromJson(data);
 
-       if (doc.isNull())
-       {
-            qDebug()<< "Document is null: " << doc.isNull() << endl;
-            return;
-       }
-
-       QJsonObject root = doc.object();  // root contains only one object, artist
-       QJsonValue art = root.value("tracks"); // get artists object
-       QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
-
-       QString track, artist, album;
-       QUrl link, preview;
-
-       if (items.isArray())
-          {
-           QJsonArray itemsArray = items.toArray(); //convert items to array
-
-           for(int i = 0; i < itemsArray.count(); i++)
+           if (doc.isNull())
            {
-               QJsonObject subItems = itemsArray.at(i).toObject();
-               track = subItems.value("name").toString();
-               preview = subItems.value("preview_url").toString();
-               link = subItems.value("external_urls").toObject().value("spotify").toString();
-               album = subItems.value("album").toObject().value("name").toString();
-
-               QJsonArray itemArtist = subItems.value("artists").toArray();
-               for(int j = 0; j < itemArtist.count(); j++)
-                   artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
-
-               class::Track searchedTrack(track, artist, album, link, preview);
-               searchList.append(searchedTrack);
+                qDebug()<< "Document is null: " << doc.isNull() << endl;
+                return;
            }
 
-           ui->searchListWidget->clear();
-           for (int i = 0; i < searchList.count(); i++)
-           {
-               QListWidgetItem* pItem =new QListWidgetItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
-                                                  "        Album: " + searchList[i].getAlbum());
-               if(searchList[i].getPreview().toString() == "")
-                  pItem->setForeground(Qt::red);
-               // ui->searchListWidget->addItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
-                //                       "        Album: " + searchList[i].getAlbum());
+           QJsonObject root = doc.object();  // root contains only one object, artist
+           QJsonValue art = root.value("tracks"); // get artists object
+           QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
 
-               ui->searchListWidget->addItem(pItem);
+           QString track, artist, album;
+           QUrl link, preview;
+
+
+           if (items.isArray())
+              {
+               QJsonArray itemsArray = items.toArray(); //convert items to array
+               for(int i = 0; i < itemsArray.count(); i++)
+               {
+                   QJsonObject subItems = itemsArray.at(i).toObject();
+                   track = subItems.value("name").toString();
+                   preview = subItems.value("preview_url").toString();
+                   link = subItems.value("external_urls").toObject().value("spotify").toString();
+                   album = subItems.value("album").toObject().value("name").toString();
+
+                   QJsonArray itemArtist = subItems.value("artists").toArray();
+                   for(int j = 0; j < itemArtist.count(); j++)
+                       artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
+
+                   class::Track searchedTrack(track, artist, album, link, preview);
+                   searchList.append(searchedTrack);
+               }
+
+               ui->searchListWidget->clear();
+               for (int i = 0; i < searchList.count(); i++)
+               {
+                   QListWidgetItem* pItem =new QListWidgetItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
+                                                      "        Album: " + searchList[i].getAlbum());
+                  if(searchList[i].getPreview().toString() == "")
+                      pItem->setForeground(Qt::red);
+
+                   ui->searchListWidget->addItem(pItem);
+               }
+
+              }
            }
-
-          }
-       }
-    });
+        });
     }
 }
 
@@ -130,8 +131,14 @@ void Widget::on_btAdd_clicked()
         {
             user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
 
-            ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
-                                            "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
+            QListWidgetItem* pItem = new QListWidgetItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
+                                               "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
+            if(user[ui->comboBox->currentIndex()].getLastTrack().getPreview().toString() == "")
+               pItem->setForeground(Qt::red);
+            ui->playlistListWidget->addItem(pItem);
+
+            //ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
+             //                               "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
             saveUser();
         }
 
@@ -307,12 +314,15 @@ void Widget::loadUser()
 void Widget::updatePlaylistWidget(Playlist p)
 {
     ui->playlistListWidget->clear();
-   if (ui->comboBox->count() > 0)
+   if (user.count() > 0)
    {
        for (int i=0; i < p.getSize(); i++)
        {
-           ui->playlistListWidget->addItem("Track: " + p.getTrack(i).getName() + "        Artist: " + p.getTrack(i).getArtist() +
-                                          "        Album: " + p.getTrack(i).getAlbum());
+           QListWidgetItem* pItem = new QListWidgetItem("Track: " + p.getTrack(i).getName() + "        Artist: " + p.getTrack(i).getArtist() +
+                                              "        Album: " + p.getTrack(i).getAlbum());
+           if(p.getTrack(i).getPreview().toString() == "")
+              pItem->setForeground(Qt::red);
+           ui->playlistListWidget->addItem(pItem);
        }
    }
 }
@@ -336,29 +346,16 @@ void Widget::updateComboBox()
 
 void Widget::on_btSave_clicked()
 {
-  /*  for (int i = 0; i < user.count(); i++)
-    {
-        for (int j = 0; j < user[i].getSize(); j++)
-        {
-        qDebug() << "playlist " << i <<"track: " << j << user[i].getTrack(j).getName() << user[i].getTrack(j).getAlbum() << user[i].getTrack(j).getArtist();
-        }
-    }*/
-
     saveUser();
 }
 
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     ui->label->setText("Playlist: " + ui->comboBox->currentText());
-     /*ui->playlistListWidget->clear();
-    if (ui->comboBox->count() > 0)
-    {
-        for (int i=0; i < user[ui->comboBox->currentIndex()].getSize(); i++)
-        {
-            ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getTrack(i).getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getTrack(i).getArtist() +
-                                           "        Album: " + user[ui->comboBox->currentIndex()].getTrack(i).getAlbum());
-        }
-    }*/
+
+    if (QMPlayer->state()== QMediaPlayer::PausedState)
+         QMPlayer->stop();
+
     updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
 }
 
@@ -397,4 +394,15 @@ void Widget::on_btDeletePl_clicked()
 void Widget::on_btPause_clicked()
 {
     QMPlayer->pause();
+}
+
+void Widget::on_searchListWidget_currentRowChanged(int currentRow)
+{
+    if (ui->searchListWidget->currentIndex().row() != -1)
+    {
+        if (searchList[currentRow].getPreview().toString() == "")
+               ui->labelPreview->setText("Preview: Not Available");
+        else
+               ui->labelPreview->setText("Preview: Available         ");
+    }
 }
