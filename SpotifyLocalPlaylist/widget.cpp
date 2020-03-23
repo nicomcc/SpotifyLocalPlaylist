@@ -44,6 +44,7 @@ Widget::Widget(QWidget *parent)
 
     QMPlayer = new QMediaPlayer();
     QMplaylist = new QMediaPlaylist();
+    currentPlaylistId = new int(0);
 
 
     connect(QMPlayer, &QMediaPlayer::positionChanged, this, &Widget::on_positionChanged);
@@ -187,14 +188,13 @@ void Widget::on_btPlay_clicked()
     {
         if(QMPlayer->state()!= QMediaPlayer::PausedState)
         {
-            currentPlaylistId = new int(ui->comboBox->currentIndex());
+           // currentPlaylistId = new int(ui->comboBox->currentIndex());
+            *currentPlaylistId = ui->comboBox->currentIndex();
             QMplaylist = new QMediaPlaylist();
 
             //if no track is selected, start from beginning
             if(ui->playlistListWidget->currentRow() == -1)
                    ui->playlistListWidget->setCurrentRow(0);
-
-            qDebug() << "current row: " << ui->playlistListWidget->currentRow() << endl;
 
           //start playlist from selected track
             for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
@@ -209,7 +209,7 @@ void Widget::on_btPlay_clicked()
         if (QMplaylist->currentIndex() >= 0)
          ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
 
-        connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
+       connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
             if(ui->comboBox->currentIndex() == *currentPlaylistId)
                  ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
 
@@ -445,11 +445,7 @@ void Widget::on_btStop_clicked()
 
 void Widget::on_btNext_clicked()
 {
-   // if(QMplaylist->currentIndex() < user[*currentPlaylistId].getSize() - 1)
-   // {
-     //   qDebug () << "size: " << user[*currentPlaylistId].getSize() << endl;
         QMplaylist->next();
-    //}
 }
 
 void Widget::on_btPrevious_clicked()
