@@ -49,6 +49,8 @@ Widget::Widget(QWidget *parent)
 
     connect(QMPlayer, &QMediaPlayer::positionChanged, this, &Widget::on_positionChanged);
     connect(QMPlayer, &QMediaPlayer::durationChanged, this, &Widget::on_durationChanged);
+
+    qDebug() << "Path: " << QDir::currentPath() << endl;
 }
 
 Widget::~Widget()
@@ -290,9 +292,12 @@ void Widget::saveUser()
 
     doc.setObject(defaultUser);
 
-    qDebug() << doc << endl;
+   // qDebug() << doc << endl;
 
+    QString outputDir = QDir::currentPath(); // with "/" separators
     QString filename = "localUser.json";
+    QString fileOut = outputDir+ "/" + filename;
+
     QFile file(filename);
 
     if(!file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
@@ -306,12 +311,15 @@ void Widget::saveUser()
 
 void Widget::loadUser()
 {
+    QString outputDir = QDir::currentPath(); // with "/" separators
     QString filename = "localUser.json";
+    QString fileOut = outputDir+ "/" + filename;
+
     QFile file(filename);
 
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
-        QMessageBox::warning(this, "Message", "Failed to load file!", QMessageBox::Ok);
+        qDebug() << "Couldn't find file!" << endl;
         return;
     }
 
@@ -319,7 +327,7 @@ void Widget::loadUser()
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
     file.close();
 
-    qDebug() << doc << endl;
+    //qDebug() << doc << endl;
 
     QJsonObject root = doc.object();  // root contains only one object, artist
     QJsonArray playlistsArray = root.value("playlists").toArray(); // get artists object
