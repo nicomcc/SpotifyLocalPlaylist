@@ -44,6 +44,12 @@ private slots:
 
     void on_searchListWidget_currentRowChanged(int currentRow);
 
+    void on_btStop_clicked();
+
+    void on_btNext_clicked();
+
+    void on_btPrevious_clicked();
+
 private:
     Ui::Widget *ui;
 

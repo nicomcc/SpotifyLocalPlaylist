@@ -12,6 +12,12 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->btPlay->setIcon(QIcon(":/icons/play.png"));
+    ui->btPause->setIcon(QIcon(":/icons/pause.png"));
+    ui->btStop->setIcon(QIcon(":/icons/stop.png"));
+    ui->btPrevious->setIcon(QIcon(":/icons/previous.png"));
+    ui->btNext->setIcon(QIcon(":/icons/next.png"));
+
     loadUser();
 
     const QString clientId = "eaf37929f4c24661ab28bd1854576bce";
@@ -422,4 +428,19 @@ void Widget::on_searchListWidget_currentRowChanged(int currentRow)
         else
                ui->labelPreview->setText("Preview: Available         ");
     }
+}
+
+void Widget::on_btStop_clicked()
+{
+    QMPlayer->stop();
+}
+
+void Widget::on_btNext_clicked()
+{
+    QMplaylist->next();
+}
+
+void Widget::on_btPrevious_clicked()
+{
+    QMplaylist->previous();
 }
