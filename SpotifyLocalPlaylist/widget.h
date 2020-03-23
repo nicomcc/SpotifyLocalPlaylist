@@ -34,8 +34,6 @@ private slots:
 
     void on_btCreatePlaylist_clicked();
 
-    void on_btSave_clicked();
-
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
     void on_btDeletePl_clicked();
@@ -49,6 +47,12 @@ private slots:
     void on_btNext_clicked();
 
     void on_btPrevious_clicked();
+
+    void on_positionChanged(int position);
+
+    void on_durationChanged(int duration);
+
+    void on_volumeSlider_sliderMoved(int position);
 
 private:
     Ui::Widget *ui;

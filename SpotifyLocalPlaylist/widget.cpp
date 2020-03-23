@@ -12,13 +12,18 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //initialize button icons
     ui->btPlay->setIcon(QIcon(":/icons/play.png"));
     ui->btPause->setIcon(QIcon(":/icons/pause.png"));
     ui->btStop->setIcon(QIcon(":/icons/stop.png"));
     ui->btPrevious->setIcon(QIcon(":/icons/previous.png"));
     ui->btNext->setIcon(QIcon(":/icons/next.png"));
 
+    //load playlists from json file
     loadUser();
+
+    if(user.count() > 0)
+        ui->label->setText("Playlist: " + ui->comboBox->currentText());
 
     const QString clientId = "eaf37929f4c24661ab28bd1854576bce";
     const QString clientSecret = "d166eb2ab7c841cb941bc50a54f7832f";
@@ -41,9 +46,8 @@ Widget::Widget(QWidget *parent)
     QMplaylist = new QMediaPlaylist();
 
 
-    if(user.count() > 0)
-        ui->label->setText("Playlist: " + ui->comboBox->currentText());
-
+    connect(QMPlayer, &QMediaPlayer::positionChanged, this, &Widget::on_positionChanged);
+    connect(QMPlayer, &QMediaPlayer::durationChanged, this, &Widget::on_durationChanged);
 }
 
 Widget::~Widget()
@@ -190,18 +194,27 @@ void Widget::on_btPlay_clicked()
             if(ui->playlistListWidget->currentRow() == -1)
                    ui->playlistListWidget->setCurrentRow(0);
 
+            qDebug() << "current row: " << ui->playlistListWidget->currentRow() << endl;
+
           //start playlist from selected track
-            for(int i = ui->playlistListWidget->currentRow(); i < user[ui->comboBox->currentIndex()].getSize();++i)
+            for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
                   QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
 
 
             QMPlayer->setPlaylist(QMplaylist);
+            QMplaylist->setCurrentIndex(ui->playlistListWidget->currentRow());
         }
         QMPlayer->play();
+
+        if (QMplaylist->currentIndex() >= 0)
+         ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
 
         connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
             if(ui->comboBox->currentIndex() == *currentPlaylistId)
                  ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
+
+            if (QMplaylist->currentIndex() >= 0)
+                 ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
         });
       }
 
@@ -362,12 +375,6 @@ void Widget::updateComboBox()
 
 }
 
-void Widget::on_btSave_clicked()
-{
-    QMplaylist->next();
-    saveUser();
-}
-
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     ui->label->setText("Playlist: " + ui->comboBox->currentText());
@@ -433,14 +440,35 @@ void Widget::on_searchListWidget_currentRowChanged(int currentRow)
 void Widget::on_btStop_clicked()
 {
     QMPlayer->stop();
+    ui->labelPlaying->setText("Playing: ");
 }
 
 void Widget::on_btNext_clicked()
 {
-    QMplaylist->next();
+   // if(QMplaylist->currentIndex() < user[*currentPlaylistId].getSize() - 1)
+   // {
+     //   qDebug () << "size: " << user[*currentPlaylistId].getSize() << endl;
+        QMplaylist->next();
+    //}
 }
 
 void Widget::on_btPrevious_clicked()
 {
-    QMplaylist->previous();
+   //if(QMplaylist->currentIndex() > 0)
+         QMplaylist->previous();
+}
+
+void Widget::on_positionChanged(int position)
+{
+    ui->progressSlider->setValue(position);
+}
+
+void Widget::on_durationChanged(int duration)
+{
+    ui->progressSlider->setMaximum(duration);
+}
+
+void Widget::on_volumeSlider_sliderMoved(int position)
+{
+    QMPlayer->setVolume(position);
 }
