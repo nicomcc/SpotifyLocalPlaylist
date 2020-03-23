@@ -34,6 +34,7 @@ Widget::Widget(QWidget *parent)
     QMPlayer = new QMediaPlayer();
     QMplaylist = new QMediaPlaylist();
 
+
     if(user.count() > 0)
         ui->label->setText("Playlist: " + ui->comboBox->currentText());
 
@@ -124,26 +125,29 @@ void Widget::on_btAdd_clicked()
     //check if any row is selected
     if (ui->searchListWidget->currentIndex().row() != -1)
     {
-        class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
+    class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
 
-        //if track isn't already on playlist
-        if(!user[ui->comboBox->currentIndex()].isTrackAlreadyOnList(selectedTrack))
-        {
-            user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
+    //check if track has preview available
+    if (selectedTrack.getPreview().toString() != "")
+    {
+            //check if track isn't already on playlist
+            if(!user[ui->comboBox->currentIndex()].isTrackAlreadyOnList(selectedTrack))
+            {
+                user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
 
-            QListWidgetItem* pItem = new QListWidgetItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
-                                               "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
-            if(user[ui->comboBox->currentIndex()].getLastTrack().getPreview().toString() == "")
-               pItem->setForeground(Qt::red);
-            ui->playlistListWidget->addItem(pItem);
+                QListWidgetItem* pItem = new QListWidgetItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
+                                                   "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
+                if(user[ui->comboBox->currentIndex()].getLastTrack().getPreview().toString() == "")
+                   pItem->setForeground(Qt::red);
+                ui->playlistListWidget->addItem(pItem);
+                saveUser();
+            }
 
-            //ui->playlistListWidget->addItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
-             //                               "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
-            saveUser();
+            else
+               QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
         }
-
-        else
-           QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
+    else
+         QMessageBox::warning(this, "Message", "This track has no preview available!", QMessageBox::Ok);
     }
 }
 
@@ -173,19 +177,28 @@ void Widget::on_btPlay_clicked()
     {
         if(QMPlayer->state()!= QMediaPlayer::PausedState)
         {
+            currentPlaylistId = new int(ui->comboBox->currentIndex());
             QMplaylist = new QMediaPlaylist();
 
-            for(int i =0; i < user[ui->comboBox->currentIndex()].getSize();++i)
-            {
-              if (user[ui->comboBox->currentIndex()].getTrack(i).getPreview().toString() != "")
+            //if no track is selected, start from beginning
+            if(ui->playlistListWidget->currentRow() == -1)
+                   ui->playlistListWidget->setCurrentRow(0);
+
+          //start playlist from selected track
+            for(int i = ui->playlistListWidget->currentRow(); i < user[ui->comboBox->currentIndex()].getSize();++i)
                   QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
 
-            }
 
             QMPlayer->setPlaylist(QMplaylist);
         }
         QMPlayer->play();
+
+        connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
+            if(ui->comboBox->currentIndex() == *currentPlaylistId)
+                 ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
+        });
       }
+
     else
         QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
 
@@ -272,6 +285,7 @@ void Widget::loadUser()
 {
     QString filename = "localUser.json";
     QFile file(filename);
+
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {
         QMessageBox::warning(this, "Message", "Failed to load file!", QMessageBox::Ok);
@@ -320,8 +334,6 @@ void Widget::updatePlaylistWidget(Playlist p)
        {
            QListWidgetItem* pItem = new QListWidgetItem("Track: " + p.getTrack(i).getName() + "        Artist: " + p.getTrack(i).getArtist() +
                                               "        Album: " + p.getTrack(i).getAlbum());
-           if(p.getTrack(i).getPreview().toString() == "")
-              pItem->setForeground(Qt::red);
            ui->playlistListWidget->addItem(pItem);
        }
    }
@@ -346,6 +358,7 @@ void Widget::updateComboBox()
 
 void Widget::on_btSave_clicked()
 {
+    QMplaylist->next();
     saveUser();
 }
 
@@ -357,6 +370,10 @@ void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
          QMPlayer->stop();
 
     updatePlaylistWidget(user[ui->comboBox->currentIndex()]);
+
+    //select playing track if it matchs with playlist
+    if(ui->comboBox->currentIndex() == *currentPlaylistId)
+         ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
 }
 
 void Widget::on_btDeletePl_clicked()

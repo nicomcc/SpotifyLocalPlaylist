@@ -30,8 +30,6 @@ private slots:
 
     void on_btRemove_clicked();
 
-    //void on_pushButton_7_clicked();
-
     void on_btPlay_clicked();
 
     void on_btCreatePlaylist_clicked();
@@ -63,6 +61,6 @@ private:
     QMediaPlayer *QMPlayer;
     QMediaPlaylist *QMplaylist;
 
-   // Playlist playlist;
+    int *currentPlaylistId;
 };
 #endif // WIDGET_H
