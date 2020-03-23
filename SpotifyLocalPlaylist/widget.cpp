@@ -184,43 +184,47 @@ void Widget::on_btRemove_clicked()
 
 void Widget::on_btPlay_clicked()
 {
-    if(user[ui->comboBox->currentIndex()].getSize() > 0)
+    if(user.size() > 0)
     {
-        if(QMPlayer->state()!= QMediaPlayer::PausedState)
+        if(user[ui->comboBox->currentIndex()].getSize() > 0)
         {
-           // currentPlaylistId = new int(ui->comboBox->currentIndex());
-            *currentPlaylistId = ui->comboBox->currentIndex();
-            QMplaylist = new QMediaPlaylist();
+            if(QMPlayer->state()!= QMediaPlayer::PausedState)
+            {
+               // currentPlaylistId = new int(ui->comboBox->currentIndex());
+                *currentPlaylistId = ui->comboBox->currentIndex();
+                QMplaylist = new QMediaPlaylist();
 
-            //if no track is selected, start from beginning
-            if(ui->playlistListWidget->currentRow() == -1)
-                   ui->playlistListWidget->setCurrentRow(0);
+                //if no track is selected, start from beginning
+                if(ui->playlistListWidget->currentRow() == -1)
+                       ui->playlistListWidget->setCurrentRow(0);
 
-          //start playlist from selected track
-            for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
-                  QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
+              //start playlist from selected track
+                for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
+                      QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
 
 
-            QMPlayer->setPlaylist(QMplaylist);
-            QMplaylist->setCurrentIndex(ui->playlistListWidget->currentRow());
-        }
-        QMPlayer->play();
-
-        if (QMplaylist->currentIndex() >= 0)
-         ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
-
-       connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
-            if(ui->comboBox->currentIndex() == *currentPlaylistId)
-                 ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
+                QMPlayer->setPlaylist(QMplaylist);
+                QMplaylist->setCurrentIndex(ui->playlistListWidget->currentRow());
+            }
+            QMPlayer->play();
 
             if (QMplaylist->currentIndex() >= 0)
-                 ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
-        });
-      }
+             ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
 
+           connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
+                if(ui->comboBox->currentIndex() == *currentPlaylistId)
+                     ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
+
+                if (QMplaylist->currentIndex() >= 0)
+                     ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
+            });
+          }
+
+        else
+            QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
+    }
     else
-        QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
-
+        QMessageBox::warning(this, "Message", "User has no playlists!", QMessageBox::Ok);
 }
 
 void Widget::on_btCreatePlaylist_clicked()
