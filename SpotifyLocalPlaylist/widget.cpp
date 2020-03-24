@@ -51,6 +51,20 @@ Widget::Widget(QWidget *parent)
     connect(QMPlayer, &QMediaPlayer::durationChanged, this, &Widget::on_durationChanged);
 
     qDebug() << "Path: " << QDir::currentPath() << endl;
+
+    QString str1,str2,str3;
+        str1="Student Name";
+        str2= "James";
+
+        str3= QString("%1 %2 %3").arg(str1,-20).arg(" = ").arg(str2);
+        qDebug() << str3;
+
+        //QString str6,str4,str5;
+            str1="aassaaaaa Name";
+            str2= "renatos";
+
+            str3= QString("%1 %2 %3").arg(str1,-20).arg(" = ").arg(str2);
+            qDebug() << str3;
 }
 
 Widget::~Widget()
@@ -61,107 +75,12 @@ Widget::~Widget()
 
 void Widget::on_btSearch_clicked()
 {
-    QString track = ui->lineMusic->text();
-    if(track != "")
-    {
-        QUrl u ("https://api.spotify.com/v1/search?q=" + track + "&type=track");
-
-        auto reply = spotify.get(u);
-
-
-        connect (reply, &QNetworkReply::finished, [=]() {
-               //if connection finds error
-            if (reply->error() != QNetworkReply::NoError) {
-                qDebug() << reply->errorString() << endl;
-                return;
-            }
-
-       if(!reply->error()){
-           const auto data = reply->readAll();
-
-           searchList.clear();
-
-           QJsonDocument doc = QJsonDocument::fromJson(data);
-
-           if (doc.isNull())
-           {
-                qDebug()<< "Document is null: " << doc.isNull() << endl;
-                return;
-           }
-
-           QJsonObject root = doc.object();  // root contains only one object, artist
-           QJsonValue art = root.value("tracks"); // get artists object
-           QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
-
-           QString track, artist, album;
-           QUrl link, preview;
-
-
-           if (items.isArray())
-              {
-               QJsonArray itemsArray = items.toArray(); //convert items to array
-               for(int i = 0; i < itemsArray.count(); i++)
-               {
-                   QJsonObject subItems = itemsArray.at(i).toObject();
-                   track = subItems.value("name").toString();
-                   preview = subItems.value("preview_url").toString();
-                   link = subItems.value("external_urls").toObject().value("spotify").toString();
-                   album = subItems.value("album").toObject().value("name").toString();
-
-                   QJsonArray itemArtist = subItems.value("artists").toArray();
-                   for(int j = 0; j < itemArtist.count(); j++)
-                       artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
-
-                   class::Track searchedTrack(track, artist, album, link, preview);
-                   searchList.append(searchedTrack);
-               }
-
-               ui->searchListWidget->clear();
-               for (int i = 0; i < searchList.count(); i++)
-               {
-                   QListWidgetItem* pItem =new QListWidgetItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
-                                                      "        Album: " + searchList[i].getAlbum());
-                  if(searchList[i].getPreview().toString() == "")
-                      pItem->setForeground(Qt::red);
-
-                   ui->searchListWidget->addItem(pItem);
-               }
-
-              }
-           }
-        });
-    }
+    searchMusic();
 }
 
 void Widget::on_btAdd_clicked()
 {
-    //check if any row is selected
-    if (ui->searchListWidget->currentIndex().row() != -1)
-    {
-    class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
-
-    //check if track has preview available
-    if (selectedTrack.getPreview().toString() != "")
-    {
-            //check if track isn't already on playlist
-            if(!user[ui->comboBox->currentIndex()].isTrackAlreadyOnList(selectedTrack))
-            {
-                user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
-
-                QListWidgetItem* pItem = new QListWidgetItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
-                                                   "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
-                if(user[ui->comboBox->currentIndex()].getLastTrack().getPreview().toString() == "")
-                   pItem->setForeground(Qt::red);
-                ui->playlistListWidget->addItem(pItem);
-                saveUser();
-            }
-
-            else
-               QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
-        }
-    else
-         QMessageBox::warning(this, "Message", "This track has no preview available!", QMessageBox::Ok);
-    }
+    addItemtoPlaylist();
 }
 
 
@@ -176,8 +95,10 @@ void Widget::on_btRemove_clicked()
             {
                 Track selectedTrack = user[ui->comboBox->currentIndex()].getTrack(ui->playlistListWidget->currentIndex().row());
                 user[ui->comboBox->currentIndex()].RemoveTrack(selectedTrack);
-                ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());
+                ui->playlistListWidget->takeItem(ui->playlistListWidget->currentIndex().row());                
                 saveUser();
+                //stop player to prevent playlist trying to access out of boundaries index
+                QMPlayer->stop();
             }
         }
     }
@@ -186,47 +107,7 @@ void Widget::on_btRemove_clicked()
 
 void Widget::on_btPlay_clicked()
 {
-    if(user.size() > 0)
-    {
-        if(user[ui->comboBox->currentIndex()].getSize() > 0)
-        {
-            if(QMPlayer->state()!= QMediaPlayer::PausedState)
-            {
-               // currentPlaylistId = new int(ui->comboBox->currentIndex());
-                *currentPlaylistId = ui->comboBox->currentIndex();
-                QMplaylist = new QMediaPlaylist();
-
-                //if no track is selected, start from beginning
-                if(ui->playlistListWidget->currentRow() == -1)
-                       ui->playlistListWidget->setCurrentRow(0);
-
-              //start playlist from selected track
-                for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
-                      QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
-
-
-                QMPlayer->setPlaylist(QMplaylist);
-                QMplaylist->setCurrentIndex(ui->playlistListWidget->currentRow());
-            }
-            QMPlayer->play();
-
-            if (QMplaylist->currentIndex() >= 0)
-             ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
-
-           connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
-                if(ui->comboBox->currentIndex() == *currentPlaylistId)
-                     ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
-
-                if (QMplaylist->currentIndex() >= 0)
-                     ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
-            });
-          }
-
-        else
-            QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
-    }
-    else
-        QMessageBox::warning(this, "Message", "User has no playlists!", QMessageBox::Ok);
+    playTrack();
 }
 
 void Widget::on_btCreatePlaylist_clicked()
@@ -479,4 +360,169 @@ void Widget::on_durationChanged(int duration)
 void Widget::on_volumeSlider_sliderMoved(int position)
 {
     QMPlayer->setVolume(position);
+}
+
+void Widget::addItemtoPlaylist()
+{
+    //check if any row is selected
+    if (ui->searchListWidget->currentIndex().row() != -1)
+    {
+    class::Track selectedTrack = searchList[ui->searchListWidget->currentIndex().row()];
+
+    //check if track has preview available
+    if (selectedTrack.getPreview().toString() != "")
+    {
+            //check if track isn't already on playlist
+            if(!user[ui->comboBox->currentIndex()].isTrackAlreadyOnList(selectedTrack))
+            {
+                user[ui->comboBox->currentIndex()].AddTrack(selectedTrack);
+
+                QListWidgetItem* pItem = new QListWidgetItem("Track: " + user[ui->comboBox->currentIndex()].getLastTrack().getName() + "        Artist: " + user[ui->comboBox->currentIndex()].getLastTrack().getArtist() +
+                                                   "        Album: " + user[ui->comboBox->currentIndex()].getLastTrack().getAlbum());
+                if(user[ui->comboBox->currentIndex()].getLastTrack().getPreview().toString() == "")
+                   pItem->setForeground(Qt::red);
+                ui->playlistListWidget->addItem(pItem);
+                saveUser();
+            }
+
+            else
+               QMessageBox::warning(this, "Message", "Track is already on playlist", QMessageBox::Ok);
+        }
+    else
+         QMessageBox::warning(this, "Message", "This track has no preview available!", QMessageBox::Ok);
+    }
+}
+
+void Widget::playTrack()
+{
+    if(user.size() > 0)
+    {
+        if(user[ui->comboBox->currentIndex()].getSize() > 0)
+        {
+            if(QMPlayer->state()!= QMediaPlayer::PausedState)
+            {
+               // currentPlaylistId = new int(ui->comboBox->currentIndex());
+                *currentPlaylistId = ui->comboBox->currentIndex();
+                QMplaylist = new QMediaPlaylist();
+
+                //if no track is selected, start from beginning
+                if(ui->playlistListWidget->currentRow() == -1)
+                       ui->playlistListWidget->setCurrentRow(0);
+
+              //start playlist from selected track
+                for(int i = 0; i < user[ui->comboBox->currentIndex()].getSize();++i)
+                      QMplaylist->addMedia(user[ui->comboBox->currentIndex()].getTrack(i).getPreview());
+
+
+                QMPlayer->setPlaylist(QMplaylist);
+                QMplaylist->setCurrentIndex(ui->playlistListWidget->currentRow());
+            }
+            QMPlayer->play();
+
+            if (QMplaylist->currentIndex() >= 0)
+             ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
+
+           connect (QMplaylist, &QMediaPlaylist::currentIndexChanged, [=]() {
+                if(ui->comboBox->currentIndex() == *currentPlaylistId)
+                     ui->playlistListWidget->setCurrentRow(QMplaylist->currentIndex());
+
+                if (QMplaylist->currentIndex() >= 0)
+                     ui->labelPlaying->setText("Playing: " + user[*currentPlaylistId].getTrack(QMplaylist->currentIndex()).getName());
+            });
+          }
+
+        else
+            QMessageBox::warning(this, "Message", "Playlist is empty!", QMessageBox::Ok);
+    }
+    else
+        QMessageBox::warning(this, "Message", "User has no playlists!", QMessageBox::Ok);
+}
+
+void Widget::searchMusic()
+{
+    QString track = ui->lineMusic->text();
+    if(track != "")
+    {
+        QUrl u ("https://api.spotify.com/v1/search?q=" + track + "&type=track");
+
+        auto reply = spotify.get(u);
+
+
+        connect (reply, &QNetworkReply::finished, [=]() {
+               //if connection finds error
+            if (reply->error() != QNetworkReply::NoError) {
+                qDebug() << reply->errorString() << endl;
+                return;
+            }
+
+       if(!reply->error()){
+           const auto data = reply->readAll();
+
+           searchList.clear();
+
+           QJsonDocument doc = QJsonDocument::fromJson(data);
+
+           if (doc.isNull())
+           {
+                qDebug()<< "Document is null: " << doc.isNull() << endl;
+                return;
+           }
+
+           QJsonObject root = doc.object();  // root contains only one object, artist
+           QJsonValue art = root.value("tracks"); // get artists object
+           QJsonValue items = art.toObject().value("items"); //get items value and check if it is an array in artist object
+
+           QString track, artist, album;
+           QUrl link, preview;
+
+
+           if (items.isArray())
+              {
+               QJsonArray itemsArray = items.toArray(); //convert items to array
+               for(int i = 0; i < itemsArray.count(); i++)
+               {
+                   QJsonObject subItems = itemsArray.at(i).toObject();
+                   track = subItems.value("name").toString();
+                   preview = subItems.value("preview_url").toString();
+                   link = subItems.value("external_urls").toObject().value("spotify").toString();
+                   album = subItems.value("album").toObject().value("name").toString();
+
+                   QJsonArray itemArtist = subItems.value("artists").toArray();
+                   for(int j = 0; j < itemArtist.count(); j++)
+                       artist = itemArtist.at(j).toObject().value("name").toString();  //gets artist name from artist array
+
+                   class::Track searchedTrack(track, artist, album, link, preview);
+                   searchList.append(searchedTrack);
+               }
+
+               ui->searchListWidget->clear();
+               for (int i = 0; i < searchList.count(); i++)
+               {
+                   QListWidgetItem* pItem =new QListWidgetItem("Track: " + searchList[i].getName() + "        Artist: " + searchList[i].getArtist() +
+                                                      "        Album: " + searchList[i].getAlbum());
+                  if(searchList[i].getPreview().toString() == "")
+                      pItem->setForeground(Qt::red);
+
+                   ui->searchListWidget->addItem(pItem);
+               }
+
+              }
+           }
+        });
+    }
+}
+
+void Widget::on_searchListWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    addItemtoPlaylist();
+}
+
+void Widget::on_playlistListWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    playTrack();
+}
+
+void Widget::on_lineMusic_returnPressed()
+{
+    searchMusic();
 }

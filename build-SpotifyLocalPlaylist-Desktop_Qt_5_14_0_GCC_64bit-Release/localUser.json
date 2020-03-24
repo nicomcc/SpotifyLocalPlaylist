@@ -1,0 +1,99 @@
+{
+    "name": "localUser",
+    "playlists": [
+        {
+            "name": "pao",
+            "tracks": [
+                {
+                    "album": "Xuxa Só para Baixinhos Vol. 4",
+                    "artist": "Xuxa",
+                    "name": "Dirigindo Meu Carro",
+                    "preview_link": "https://p.scdn.co/mp3-preview/eaf1579181205f46b2b921447258396d59a25946?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Xuxa Só para Baixinhos",
+                    "artist": "Avellar",
+                    "name": "Teddy, O Polvo",
+                    "preview_link": "https://p.scdn.co/mp3-preview/aa1dd67bd7c09408fad3f79e831089cc39452862?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Mantras for Divine Grace",
+                    "artist": "Snatam Kaur",
+                    "name": "Aad Guray Nameh (Protection)",
+                    "preview_link": "https://p.scdn.co/mp3-preview/2af5dc86bde180b47c6941f10ce0ca54f5b3287e?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Bluesman",
+                    "artist": "Baco Exu do Blues",
+                    "name": "BB King",
+                    "preview_link": "https://p.scdn.co/mp3-preview/2960e9111f6ce1a18140d5858b8624bfdc6abdbc?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Hip Hop Machine #6",
+                    "artist": "Machine Series",
+                    "name": "BB King",
+                    "preview_link": "https://p.scdn.co/mp3-preview/6a55c8c261d38512866df84fe818917c40405a2f?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "BB",
+                    "artist": "Shygirl",
+                    "name": "BB",
+                    "preview_link": "https://p.scdn.co/mp3-preview/798c380ce49ac3c5f8daa4228935488f17d14c91?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Rushing Back",
+                    "artist": "Vera Blue",
+                    "name": "Rushing Back",
+                    "preview_link": "https://p.scdn.co/mp3-preview/373526a105a500ceab84e7e0f2b86bae612f63de?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Navždy",
+                    "artist": "Kontrafakt",
+                    "name": "#SSMD",
+                    "preview_link": "https://p.scdn.co/mp3-preview/50d949339b83a214e68d3bcc31b309e8309b31a6?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Ss Preto",
+                    "artist": "Mc PP da VS",
+                    "name": "Ss Preto",
+                    "preview_link": "https://p.scdn.co/mp3-preview/4bc31c38e6cbda9e1a95d8a3d0ffe55906f02d69?cid=eaf37929f4c24661ab28bd1854576bce"
+                }
+            ]
+        },
+        {
+            "name": "rush",
+            "tracks": [
+                {
+                    "album": "Rush In Rio (Live)",
+                    "artist": "Rush",
+                    "name": "YYZ - Rio Live",
+                    "preview_link": "https://p.scdn.co/mp3-preview/e7e1899f0bb844a2542363c02116fda521f7d125?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Rush In Rio (Live)",
+                    "artist": "Rush",
+                    "name": "Bravado - Rio Live",
+                    "preview_link": "https://p.scdn.co/mp3-preview/6c41323347ea21744456e2bc3d2a2b6ec95df173?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Rush In Rio (Live)",
+                    "artist": "Rush",
+                    "name": "Earthshine - Rio Live",
+                    "preview_link": "https://p.scdn.co/mp3-preview/77f7f00b8fa9837e39474d30801d83c86640cc31?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Rush In Rio (Live)",
+                    "artist": "Rush",
+                    "name": "Limelight - Rio Live",
+                    "preview_link": "https://p.scdn.co/mp3-preview/f87923960c5a0a9f5d050490db609b72bf2432b4?cid=eaf37929f4c24661ab28bd1854576bce"
+                },
+                {
+                    "album": "Rush In Rio (Live)",
+                    "artist": "Rush",
+                    "name": "2112 - Rio Live",
+                    "preview_link": "https://p.scdn.co/mp3-preview/9ae50bd17b5368723e71f835606f9be18e713491?cid=eaf37929f4c24661ab28bd1854576bce"
+                }
+            ]
+        }
+    ]
+}

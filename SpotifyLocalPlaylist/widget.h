@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QMediaPlaylist>
 #include <QMediaPlayer>
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -54,6 +55,12 @@ private slots:
 
     void on_volumeSlider_sliderMoved(int position);
 
+    void on_searchListWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_playlistListWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_lineMusic_returnPressed();
+
 private:
     Ui::Widget *ui;
 
@@ -63,6 +70,9 @@ private:
     void loadUser();
     void updatePlaylistWidget(Playlist p);
     void updateComboBox();
+    void addItemtoPlaylist();
+    void playTrack();
+    void searchMusic();
 
     QList <class::Track> searchList;
 
