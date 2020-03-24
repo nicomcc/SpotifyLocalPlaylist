@@ -51,20 +51,6 @@ Widget::Widget(QWidget *parent)
     connect(QMPlayer, &QMediaPlayer::durationChanged, this, &Widget::on_durationChanged);
 
     qDebug() << "Path: " << QDir::currentPath() << endl;
-
-    QString str1,str2,str3;
-        str1="Student Name";
-        str2= "James";
-
-        str3= QString("%1 %2 %3").arg(str1,-20).arg(" = ").arg(str2);
-        qDebug() << str3;
-
-        //QString str6,str4,str5;
-            str1="aassaaaaa Name";
-            str2= "renatos";
-
-            str3= QString("%1 %2 %3").arg(str1,-20).arg(" = ").arg(str2);
-            qDebug() << str3;
 }
 
 Widget::~Widget()
