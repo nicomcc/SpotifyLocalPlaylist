@@ -35,15 +35,14 @@ Widget::Widget(QWidget *parent)
     spotify.setAccessTokenUrl(QUrl("https://accounts.spotify.com/api/token"));
     spotify.setClientIdentifier(clientId);
     spotify.setClientIdentifierSharedKey(clientSecret);
-    spotify.setScope("user-read-private user-top-read playlist-read-private playlist-modify-public playlist-modify-private user-modify-playback-state");
 
     connect(&spotify, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser,
              &QDesktopServices::openUrl);
 
     spotify.grant();
 
-    QMPlayer = new QMediaPlayer();
-    QMplaylist = new QMediaPlaylist();
+    QMPlayer = new QMediaPlayer(this);
+    QMplaylist = new QMediaPlaylist(this);
     currentPlaylistId = new int(0);
 
 
