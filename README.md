@@ -14,4 +14,4 @@ You can play the playlist from the beginning or from a desired track. Just doubl
 
 The current playing song will be highlighted on the playlist field  and will automatically change when other tracks are played.
 
-A progress bar will follow the track while it is being played. 
+A progress bar will follow the track while it is being played.
