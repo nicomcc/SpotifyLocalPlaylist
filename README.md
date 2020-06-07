@@ -1,3 +1,5 @@
+Compiled on Linux. Might need to install libraries if compiled on Windows.
+
 Create your playlist locally and play the samples provided from Spotify.
 
 On initialization, a browser page will open requesting a spotify login. After that, the program will check if there is a playlist file  and load it automatically.
